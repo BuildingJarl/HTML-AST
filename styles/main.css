@@ -1,0 +1,76 @@
+body {
+	padding: 0;
+	margin: 0;
+}
+
+#app-container {	
+	position: absolute;
+
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+
+	overflow: hidden;
+}
+
+#top-split {
+	position: absolute;
+
+	top: 0px;
+	bottom: 500px;
+	left: 0px;
+	right: 0px;
+}
+
+#live-view {
+	height: 100%;
+	width: 100%;
+
+	background-color: green;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#bottom-split {
+	position: absolute;
+
+	height: 500px;
+
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+#vis-panel {
+	display: inline-block;
+	position: absolute;
+		
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+
+	width: 300px;
+}
+
+#editor-panel { 
+	display: inline-block;
+	position: absolute;
+		
+	top: 0px;
+	bottom: 0px;
+	left: 300px;
+	right: 300px;
+}
+
+#css-panel {
+	display: inline-block;
+	position: absolute;
+		
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+
+	width: 300px;
+}
