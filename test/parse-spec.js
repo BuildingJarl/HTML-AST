@@ -2,7 +2,7 @@ import HTML from '../lib/Parser';
 
 describe("Parser Tests", function() {
 	
-	it("Simple Test without NL", function() {
+	it("Simple tag without NL at begnning", function() {
 		
 		var html = '<div class="oh"></div>';
     	var testAST = HTML.parse(html);
@@ -14,23 +14,13 @@ describe("Parser Tests", function() {
 	            class: 'oh'
 	        },
 	        voidElement: false,
-	        children: [],
-	        loc: {
-	        	start: {
-	        		line: 0,
-	        		col: 0
-	        	},
-	        	end: {
-	        		line: 0,
-	        		col: 21
-	        	}
-	        }
+	        children: []
     	}];
 
     	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
 	});
 
-	it("Simple Test with NL at beginning of string", function() {
+	it("Simple tag with NL at beginning", function() {
 		
 		var html = '\n<div class="oh"></div>';
     	var testAST = HTML.parse(html);
@@ -42,23 +32,13 @@ describe("Parser Tests", function() {
 	            class: 'oh'
 	        },
 	        voidElement: false,
-	        children: [],
-	        loc: {
-	        	start: {
-	        		line: 1,
-	        		col: 0
-	        	},
-	        	end: {
-	        		line: 1,
-	        		col: 21
-	        	}
-	        }
+	        children: []
     	}];
 
     	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
 	});
 
-	it("Simple Test with multiple NL at beginning of string", function() {
+	it("Simple tag with multiple NL's at beginning", function() {
 		
 		var html = '\n\n<div class="oh"></div>';
     	var testAST = HTML.parse(html);
@@ -70,25 +50,15 @@ describe("Parser Tests", function() {
 	            class: 'oh'
 	        },
 	        voidElement: false,
-	        children: [],
-	        loc: {
-	        	start: {
-	        		line: 2,
-	        		col: 0
-	        	},
-	        	end: {
-	        		line: 2,
-	        		col: 21
-	        	}
-	        }
+	        children: []
     	}];
 
     	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
 	});
 
-	it("Simple Test with tab at beginning of string", function() {
+	it("Simple tag with NL at end", function() {
 		
-		var html = '\n\n<div class="oh"></div>';
+		var html = '<div class="oh"></div>\n';
     	var testAST = HTML.parse(html);
 
 	    var mockAST = [{
@@ -98,19 +68,227 @@ describe("Parser Tests", function() {
 	            class: 'oh'
 	        },
 	        voidElement: false,
-	        children: [],
-	        loc: {
-	        	start: {
-	        		line: 3,
-	        		col: 1
-	        	},
-	        	end: {
-	        		line: 3,
-	        		col: 22
-	        	}
-	        }
+	        children: []
     	}];
 
-    	//expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with multiple NL's at end", function() {
+		
+		var html = '<div class="oh"></div>\n\n';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with NL in tag", function() {
+		
+		var html = '<div class="oh">\n</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with multiple NL's in tag", function() {
+		
+		var html = '<div class="oh">\n\n</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with tab in tag", function() {
+		
+		var html = '<div class="oh">\t</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with multiple r in tag", function() {
+		
+		var html = '<div class="oh">\r</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with multiple r n in tag", function() {
+		
+		var html = '<div class="oh">\r\n</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with NL and text in tag", function() {
+		
+		var html = '<div class="oh">\nhello\n\r</div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: [
+	        	{
+	        		type: 'text',
+	        		content: 'hello'
+	        	}
+	        ]
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Complex tag without text", function() {
+		
+		var html = '<div class="oh"><img><div><span></span></div></div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        voidElement: false,
+	        attrs: {
+	            class: 'oh'
+	        },
+	        children: [
+	        	{
+	        		type: 'tag',
+	        		name: 'img',
+	        		voidElement: true,
+	        		attrs: {},
+	        		children: []
+	        	},
+	        	{
+	        		type: 'tag',
+	        		name: 'div',
+	        		voidElement: false,
+	        		attrs: {},
+	        		children: [
+	        			{
+	        				type: 'tag',
+	        				name: 'span',
+	        				voidElement: false,
+	        				attrs: {},
+	        				children: []
+	        			}
+	        		]
+	        	}
+	        ]
+    	}];
+
+    	expect(JSON.stringify(testAST)).toEqual(JSON.stringify(mockAST));
+	});
+
+	it("Complex tag with text", function() {
+		
+		var html = '<div class="oh"><img><div><span>hellohello</span></div></div>';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        voidElement: false,
+	        attrs: {
+	            class: 'oh'
+	        },
+	        children: [
+	        	{
+	        		type: 'tag',
+	        		name: 'img',
+	        		voidElement: true,
+	        		attrs: {},
+	        		children: []
+	        	},
+	        	{
+	        		type: 'tag',
+	        		name: 'div',
+	        		voidElement: false,
+	        		attrs: {},
+	        		children: [
+	        			{
+	        				type: 'tag',
+	        				name: 'span',
+	        				voidElement: false,
+	        				attrs: {},
+	        				children: [
+	        				{
+	        					type: 'text',
+	        					content: 'hellohello'
+	        				}
+	        				]
+	        			}
+	        		]
+	        	}
+	        ]
+    	}];
+
+    	expect(JSON.stringify(testAST)).toEqual(JSON.stringify(mockAST));
 	});
 });

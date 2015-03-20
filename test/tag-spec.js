@@ -10,11 +10,7 @@ describe("Tag Tests", function() {
 			name: 'div',
 			voidElement: false,
 			attrs: {},
-			children: [],
-			loc: {
-				start: {}, 
-				end: {}
-			}
+			children: []
 		};
 
 		var testTag = new Tag(tag);
@@ -35,11 +31,7 @@ describe("Tag Tests", function() {
             	quote: 'me'
 			},
 			voidElement: false,
-			children: [],
-			loc: {
-				start: {}, 
-				end: {}
-			}
+			children: []
 		};
 
 		var testTag = new Tag(tag);
@@ -57,11 +49,7 @@ describe("Tag Tests", function() {
 				class: 'single quoted thing'
 			},
 			voidElement: false,
-			children: [],
-			loc: {
-				start: {}, 
-				end: {}
-			}
+			children: []
 		};
 
 		var testTag = new Tag(tag);
@@ -80,11 +68,7 @@ describe("Tag Tests", function() {
             	alt: 'sweet picture'
 			},
 			voidElement: true,
-			children: [],
-			loc: {
-				start: {}, 
-				end: {}
-			}
+			children: []
 		};
 
 		var testTag = new Tag(tag);
@@ -103,11 +87,7 @@ describe("Tag Tests", function() {
             	alt: 'sweet picture'
 			},
 			voidElement: true,
-			children: [],
-			loc: {
-				start: {}, 
-				end: {}
-			}
+			children: []
 		};
 
 		var testTag = new Tag(tag);
