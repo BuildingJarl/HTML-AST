@@ -1,6 +1,6 @@
 import HTML from '../lib/Parser';
 
-describe("Parser Tests", function() {
+describe("Parser Tests parse", function() {
 	
 	it("Simple tag without NL at begnning", function() {
 		
@@ -290,5 +290,72 @@ describe("Parser Tests", function() {
     	}];
 
     	expect(JSON.stringify(testAST)).toEqual(JSON.stringify(mockAST));
+	});
+
+	it("Component", function() {
+			
+			var html = '<div class="oh"><img><custom><span>hello hello hi</span></custom></div>';
+	    	var testAST = HTML.parse(html);
+
+		    var mockAST = [{
+		    	type: 'tag',
+		        name: 'div',
+		        voidElement: false,
+		        attrs: {
+		            class: 'oh'
+		        },
+		        children: [
+		        	{
+		        		type: 'tag',
+		        		name: 'img',
+		        		voidElement: true,
+		        		attrs: {},
+		        		children: []
+		        	},
+		        	{
+		        		type: 'tag',
+		        		name: 'custom',
+		        		voidElement: false,
+		        		attrs: {},
+		        		children: [
+		        			{
+		        				type: 'tag',
+		        				name: 'span',
+		        				voidElement: false,
+		        				attrs: {},
+		        				children: [
+		        				{
+		        					type: 'text',
+		        					content: 'hello hello hi'
+		        				}
+		        				]
+		        			}
+		        		]
+		        	}
+		        ]
+	    	}];
+
+	    	expect(JSON.stringify(testAST)).toEqual(JSON.stringify(mockAST));
+		});
+});
+
+describe("Parser Tests toString", function() {
+	
+	it("Simple", function() {
+		
+		var html = '<div class="oh"></div>';
+    	var ast = HTML.parse(html);
+
+    	var actual = HTML.toString(ast);
+    	expect(actual).toEqual(html);
+	});
+
+	it("Complex", function() {
+		
+		var html = '<div class="oh"><div class="bll"></div><span><img></span><br></div>';
+    	var ast = HTML.parse(html);
+
+    	var actual = HTML.toString(ast);
+    	expect(actual).toEqual(html);
 	});
 });
