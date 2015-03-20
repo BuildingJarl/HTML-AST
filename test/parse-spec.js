@@ -336,7 +336,7 @@ describe("Parser Tests parse", function() {
 	    	}];
 
 	    	expect(JSON.stringify(testAST)).toEqual(JSON.stringify(mockAST));
-		});
+	});
 });
 
 describe("Parser Tests toString", function() {
