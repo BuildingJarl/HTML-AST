@@ -205,6 +205,40 @@ describe("Parser Tests parse", function() {
     	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
 	});
 
+	it("Simple tag with text in at end of last closed tag", function() {
+		
+		var html = '<div class="oh"></div>asadasasdad';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'div',
+	        attrs: {
+	            class: 'oh'
+	        },
+	        voidElement: false,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
+	it("Simple tag with text in at end of last self closing tag", function() {
+		
+		var html = '<img>asadasasdad';
+    	var testAST = HTML.parse(html);
+
+	    var mockAST = [{
+	    	type: 'tag',
+	        name: 'img',
+	        attrs: {},
+	        voidElement: true,
+	        children: []
+    	}];
+
+    	expect(testAST[0]).toEqual(jasmine.objectContaining(mockAST[0]));
+	});
+
 	it("Complex tag without text", function() {
 		
 		var html = '<div class="oh"><img><div><span></span></div></div>';
