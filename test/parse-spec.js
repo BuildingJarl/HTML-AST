@@ -393,3 +393,14 @@ describe("Parser Tests toString", function() {
     	expect(actual).toEqual(html);
 	});
 });
+
+/*
+describe("Parser Tests toString", function() {
+	
+	it("Simple", function() {
+		
+		var html = '<h1>Hello</h1><div class="oh"><span><p>HelloParag</p></span></div>';
+    	var ast = HTML.parse1(html);
+	});
+});
+*/
