@@ -1,5 +1,5 @@
 import HTML from '../lib/Parser';
-
+/*
 describe("Parser Tests parse", function() {
 	
 	it("Simple tag without NL at begnning", function() {
@@ -394,13 +394,141 @@ describe("Parser Tests toString", function() {
 	});
 });
 
-/*
-describe("Parser Tests toString", function() {
+describe("Parser Tests", function() {
 	
-	it("Simple", function() {
+	it("tokenize", function() {
 		
 		var html = '<h1>Hello</h1><div class="oh"><span><p>HelloParag</p></span></div>';
-    	var ast = HTML.parse1(html);
+    	var tokens = HTML.tokenize(html);
+
+    	expect(tokens.length).toEqual(8);
 	});
+
+	it("isOpeningTag", function() {
+		
+		var tag = '<h1>'
+    	var result = HTML.isOpeningTag(tag);
+
+    	expect(result).toBe(true);
+	});
+
+	it("isClosingTag", function() {
+		
+		var tag = '</h1>'
+    	var result = HTML.isClosingTag(tag);
+
+    	expect(result).toBe(true);
+	});
+
+	it("getTagName", function() {
+		
+		var tag1 = '<h1>';
+		var tag2 = '<h1 class="bla">';
+
+    	var result1 = HTML.getTagName(tag1);
+    	var result2 = HTML.getTagName(tag2);
+
+    	expect(result1).toEqual('h1');
+    	expect(result2).toEqual('h1');
+	});
+	
+	it("findClosingToken simple", function() {
+		
+		var tokens = HTML.tokenize('<h1></h1>');
+
+    	var result = HTML.findClosingToken(tokens.slice(1));
+
+    	expect(result.indexInArray).toEqual(1);
+	});
+
+	it("findClosingToken nested", function() {
+		
+		var tokens = HTML.tokenize('<div><span></span><span></span><span></span></div>');
+		var result = HTML.findClosingToken(tokens.slice(1));
+
+    	expect(result.indexInArray).toEqual(7);
+	});
+
+	it("findClosingToken self closing", function() {
+		
+		var tokens = HTML.tokenize('<div><span></span><span><img></span><span></span></div>');
+		var result = HTML.findClosingToken(tokens.slice(1));
+
+    	expect(result.indexInArray).toEqual(8);
+	});
+
+	it("bla", function(){
+
+		var html = '<h1></h1><div><span></span></div>';
+    	var ast = HTML.parse1(html);
+
+    	var expected = [{
+    		type: 'tag',
+    		name: 'h1',
+    		voidElement: false,
+    		attrs: {},
+    		children: [ {
+    			type: 'tag',
+    			name: 'div',
+    			voidElement: false,
+    			attrs: {},
+    			children: [{
+    				type: 'tag',
+    				name: 'span',
+    				voidElement: false,
+    				attrs: {},
+    				children: []
+    			}]
+    		}]
+    	}];
+
+    	expect(JSON.stringify(ast)).toEqual(JSON.stringify(expected));
+	})
+
+	it("Missing Closing tag simple", function(){
+
+		var html = '<h1>';
+    	var ast = HTML.parse1(html);
+
+    	var expected = [{
+    		type: 'tag',
+    		name: 'h1',
+    		voidElement: false,
+    		attrs: {},
+    		children: []
+    	}];
+
+    	expect(JSON.stringify(ast)).toEqual(JSON.stringify(expected));
+	})
+
+	it("Missing Closing tag complex", function(){
+
+		//there should be a /div after div
+		var html = '<h1></h1><div><span></span>';
+    	var ast = HTML.parse1(html);
+
+    	var expected = [{
+    		type: 'tag',
+    		name: 'h1',
+    		voidElement: false,
+    		attrs: {},
+    		children: [{
+    			type: 'tag',
+	    		name: 'div',
+	    		voidElement: false,
+	    		attrs: {},
+	    		children: [
+	    		{
+	    			type: 'tag',
+		    		name: 'span',
+		    		voidElement: false,
+		    		attrs: {},
+		    		children: []
+	    		}] 
+	    	}]
+    	}];
+
+    	expect(JSON.stringify(ast)).toEqual(JSON.stringify(expected));
+	})
 });
 */
