@@ -164,20 +164,22 @@ describe("Token Helper - tokenize", function() {
 
 		it("Simple 1 - should return the corrent location - no nl", function() {
 
-			var mock = '<div>\n<h1></h1></div>';
+			var mockString = '<div>\n<h1></h1></div>';
+			var mockStart = 6;
+			var mockEnd = 14;
 
 			var expected = {
 				start: {
-					row:0,
+					row:1,
 					column:0
 				},
 				end: {
-					row:0,
-					column:0
+					row:1,
+					column: 8
 				}
 			}
 
-			var actual = HELPER.calcLocation(mock, 6,20);
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		})
