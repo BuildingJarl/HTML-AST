@@ -535,19 +535,100 @@ describe("Parser Tests", function() {
 
 describe("HTML_AST Tests", function() {
 
-	describe("string to AST", function() {
+	var mockTag = function(type,name,voidEl, attrs) {
+		return { type: type,
+				name: name,
+				voidElement: voidEl,
+				attrs: attrs,
+				children: []
+			}
+	};
 
-		it("Simple - one element with no text node", function() {
+	describe("string to AST", function() {
+		
+		it("Simple - one element with no text node - Single Line", function() {
 			var mockString = '<div></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
-			var expected = [{
-				type: 'tag',
-				name: 'div',
-				voidElement: false,
-				attrs: {},
-				children: []
-			}];
+			var expected = [ mockTag( 'tag', 'div', false, {} ) ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Simple - one element (self closing) with no text node - Single Line", function() {
+			var mockString = '<img>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+			var expected = [ mockTag( 'tag', 'img', true, {} ) ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Simple - one element + nested (self closing) with no text node - Single Line", function() {
+			var mockString = '<div><img></div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag( 'tag', 'div', false, {} );
+			var t2 = mockTag( 'tag', 'img', true, {} );
+
+			t1.children.push(t2);
+
+			var expected = [ t1 ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Simple - one element + 2 nested (self closing) with no text node - Single Line", function() {
+			var mockString = '<div><img><img></div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag( 'tag', 'div', false, {} );
+			var t2 = mockTag( 'tag', 'img', true, {} );
+			var t3 = mockTag( 'tag', 'img', true, {} );
+
+			t1.children.push(t2);
+			t1.children.push(t3);
+
+			var expected = [ t1 ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+
+		it("Mid - nested elements with no text node - Single Line", function() {
+			var mockString = '<div><span><p></p></span></div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag('tag', 'div', false, {} );
+			var t2 = mockTag('tag', 'span', false, {} );
+			var t3 = mockTag('tag', 'p', false, {} );
+
+			t1.children.push(t2);
+			t2.children.push(t3);
+
+			var expected = [t1];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+	
+		it("Mid - nested elements with no text node - Single Line", function() {
+			var mockString = '<div><img><span><p></p></span></div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag('tag', 'div', false, {} );
+			var t2 = mockTag('tag', 'img', true, {} );
+			var t3 = mockTag('tag', 'span', false, {} );
+			var t4 = mockTag('tag', 'p', false, {} );
+
+			t1.children.push(t2);
+			t1.children.push(t3);
+			t3.children.push(t4);
+
+			var expected = [t1];
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});

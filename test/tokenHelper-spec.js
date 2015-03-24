@@ -101,6 +101,32 @@ describe("Token Helper - tokenize", function() {
 			expect( mock.indexOf(actual) ).toEqual(1);
 		});
 
+		it("return correct closing tag from tokens array with void element - One", function() {
+
+			var mock = [
+				mockToken('<img>', 0, 4),
+				mockToken('<div>', 0, 4),
+				mockToken('</div>', 5, 6)
+			];
+
+			var actual = HELPER.findClosing( 'div', mock.slice(2));
+
+			expect( mock.indexOf(actual) ).toEqual(2);
+		});
+
+		it("return correct closing tag from tokens array with void element - Two", function() {
+
+			var mock = [
+				mockToken('<div>', 0, 4),
+				mockToken('<img>', 0, 4),
+				mockToken('</div>', 5, 6)
+			];
+
+			var actual = HELPER.findClosing( 'div', mock.slice(1));
+
+			expect( mock.indexOf(actual) ).toEqual(2);
+		});
+
 		it("return correct closing tag from tokens array", function() {
 
 			var mock = [
