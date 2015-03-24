@@ -159,4 +159,27 @@ describe("Token Helper - tokenize", function() {
 			expect( mock.indexOf(actual) ).toEqual(-1);
 		});
 	});
+
+	describe("CalcLocation in String", function() {
+
+		it("Simple 1 - should return the corrent location - no nl", function() {
+
+			var mock = '<div>\n<h1></h1></div>';
+
+			var expected = {
+				start: {
+					row:0,
+					column:0
+				},
+				end: {
+					row:0,
+					column:0
+				}
+			}
+
+			var actual = HELPER.calcLocation(mock, 6,20);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		})
+	});
 });
