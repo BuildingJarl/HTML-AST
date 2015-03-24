@@ -1,4 +1,4 @@
-import HTML from '../lib/Parser';
+import HTML_AST from '../lib/HTML_AST';
 /*
 describe("Parser Tests parse", function() {
 	
@@ -532,3 +532,24 @@ describe("Parser Tests", function() {
 	})
 });
 */
+
+describe("HTML_AST Tests", function() {
+
+	describe("string to AST", function() {
+
+		it("Simple - one element with no text node", function() {
+			var mockString = '<div></div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+			var expected = [{
+				type: 'tag',
+				name: 'div',
+				voidElement: false,
+				attrs: {},
+				children: []
+			}];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+	});
+});

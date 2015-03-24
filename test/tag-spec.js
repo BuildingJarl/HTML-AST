@@ -1,7 +1,7 @@
 import Tag from '../lib/Tag';
-/*
+
 describe("Tag Tests", function() {
-	
+
 	it("Simple Test One", function() {
 		var tag = '<div>';
 
@@ -75,7 +75,7 @@ describe("Tag Tests", function() {
 
 		expect(testTag).toEqual(jasmine.objectContaining(mocktag));
 	});
-
+	
 	it("Void Element (img without /) test", function() {
 		var tag = '<img src="something" alt="sweet picture">';
 
@@ -95,4 +95,3 @@ describe("Tag Tests", function() {
 		expect(testTag).toEqual(jasmine.objectContaining(mocktag));
 	});
 });
-*/
