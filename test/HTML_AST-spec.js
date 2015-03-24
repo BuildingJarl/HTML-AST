@@ -544,9 +544,9 @@ describe("HTML_AST Tests", function() {
 			}
 	};
 
-	describe("string to AST", function() {
+	describe("string to AST - Single Line with no text nodes", function() {
 		
-		it("Simple - one element with no text node - Single Line", function() {
+		it("Simple - one element with no text node", function() {
 			var mockString = '<div></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -555,7 +555,7 @@ describe("HTML_AST Tests", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 
-		it("Simple - one element (self closing) with no text node - Single Line", function() {
+		it("Simple - one element (self closing) with no text node", function() {
 			var mockString = '<img>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -564,7 +564,7 @@ describe("HTML_AST Tests", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 
-		it("Simple - one element + nested (self closing) with no text node - Single Line", function() {
+		it("Simple - one element + nested (self closing) with no text node", function() {
 			var mockString = '<div><img></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -579,7 +579,7 @@ describe("HTML_AST Tests", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 
-		it("Simple - one element + 2 nested (self closing) with no text node - Single Line", function() {
+		it("Simple - one element + 2 nested (self closing) with no text node", function() {
 			var mockString = '<div><img><img></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -596,8 +596,7 @@ describe("HTML_AST Tests", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 
-
-		it("Mid - nested elements with no text node - Single Line", function() {
+		it("Mid - nested elements with no text node", function() {
 			var mockString = '<div><span><p></p></span></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -614,7 +613,7 @@ describe("HTML_AST Tests", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 	
-		it("Mid - nested elements with no text node - Single Line", function() {
+		it("Mid - nested elements with void elemetns and no text node", function() {
 			var mockString = '<div><img><span><p></p></span></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
@@ -631,6 +630,105 @@ describe("HTML_AST Tests", function() {
 			var expected = [t1];
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Complex - multi nested elements with void elemetns and no text node", function() {
+			var mockString = '<div><img><img><span><p></p></span><div><div><div></div></div></div><span><p></p><img><img></span></div><span></span>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag('tag', 'div', false, {} );
+			var t2 = mockTag('tag', 'img', true, {} );
+			var t3 = mockTag('tag', 'img', true, {} );
+			var t4 = mockTag('tag', 'span', false, {} );
+			var t5 = mockTag('tag', 'p', false, {} );
+			var t6 = mockTag('tag', 'div', false, {} );
+			var t7 = mockTag('tag', 'div', false, {} );
+			var t8 = mockTag('tag', 'div', false, {} );
+
+			var t9 = mockTag('tag', 'span', false, {} );
+			var t10 = mockTag('tag', 'p', false, {} );
+			var t11 = mockTag('tag', 'img', true, {} );
+			var t12 = mockTag('tag', 'img', true, {} );
+			var t13 = mockTag('tag', 'span', false, {} );
+
+			t1.children.push(t2);
+			t1.children.push(t3);
+			t1.children.push(t4);
+			t4.children.push(t5);
+			t1.children.push(t6)
+			t6.children.push(t7)
+			t7.children.push(t8)
+			t1.children.push(t9);
+			t9.children.push(t10);
+			t9.children.push(t11);
+			t9.children.push(t12);
+
+			var expected = [t1,t13];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+	});
+
+	describe("string to AST - Single Line with no text nodes and missing closing", function() {
+
+		it("simple One", function() {
+			var mockString = '<div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+			var expected = [ mockTag( 'tag', 'div', false, {} ) ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("simple Two", function() {
+			var mockString = '<div><span></span>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag( 'tag', 'div', false, {} );
+			var t2 = mockTag( 'tag', 'span', false, {} );
+
+			t1.children.push(t2);
+
+			var expected = [ t1 ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("multi One", function() {
+			var mockString = '<div><span>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag( 'tag', 'div', false, {} );
+			var t2 = mockTag( 'tag', 'span', false, {} );
+
+			t1.children.push(t2);
+
+			var expected = [ t1 ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("multi Two", function() {
+			var mockString = '<div><span><img><img>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			var t1 = mockTag( 'tag', 'div', false, {} );
+			var t2 = mockTag( 'tag', 'span', false, {} );
+			var t3 = mockTag( 'tag', 'img', true, {} );
+			var t4 = mockTag( 'tag', 'img', true, {} );
+
+			t1.children.push(t2);
+			t2.children.push(t3);
+			t2.children.push(t4);
+
+			var expected = [ t1 ];
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+			//expect(actual[0]).toEqual(jasmine.objectContaining(expected[0]));
 		});
 	});
 });
