@@ -162,9 +162,35 @@ describe("Token Helper - tokenize", function() {
 
 	describe("CalcLocation in String", function() {
 
-		it("Simple 1 - should return the corrent location - no nl", function() {
+		it("Simple 1 - should return the corrent location  - no nl", function() {
+
+			var mockString = '<div><h1></h1></div>';
+			//console.log(mockString.charAt(0)) //<
+			//console.log(mockString.charAt(19)) //>
+			var mockStart = 0;
+			var mockEnd = 19;
+
+			var expected = {
+				start: {
+					row:0,
+					column:0
+				},
+				end: {
+					row:0,
+					column: 19
+				}
+			}
+
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		})
+
+		it("Simple 2 - should return the corrent location - with nl", function() {
 
 			var mockString = '<div>\n<h1></h1></div>';
+			//console.log(mockString.charAt(6)) //<
+			//console.log(mockString.charAt(14)) //>
 			var mockStart = 6;
 			var mockEnd = 14;
 
@@ -176,6 +202,30 @@ describe("Token Helper - tokenize", function() {
 				end: {
 					row:1,
 					column: 8
+				}
+			}
+
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Simple 3 - should return the corrent location - with nl (multi)", function() {
+
+			var mockString = '<div>\n<h1>\n<h/1></div>';
+			//console.log(mockString.charAt(6)) //<
+			//console.log(mockString.charAt(15)) //>
+			var mockStart = 6;
+			var mockEnd = 15;
+
+			var expected = {
+				start: {
+					row:1,
+					column:0
+				},
+				end: {
+					row:2,
+					column: 4
 				}
 			}
 
