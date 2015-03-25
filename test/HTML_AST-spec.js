@@ -535,12 +535,22 @@ describe("Parser Tests", function() {
 
 describe("HTML_AST Tests", function() {
 
-	var mockTag = function(type,name,voidEl, attrs) {
+	var mockTag = function( type, name, voidEl, attrs, startR, startC, endR, endC ) {
 		return { type: type,
 				name: name,
 				voidElement: voidEl,
 				attrs: attrs,
-				children: []
+				children: [],
+				location: {
+					start: {
+						row: startR,
+						col: startC
+					},
+					end: {
+						row: endR,
+						col: endC
+					}
+				}
 			}
 	};
 
@@ -550,7 +560,7 @@ describe("HTML_AST Tests", function() {
 			var mockString = '<div></div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
-			var expected = [ mockTag( 'tag', 'div', false, {} ) ];
+			var expected = [ mockTag( 'tag', 'div', false, {}, 0, 0, 0, 10 ) ];
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
@@ -559,7 +569,7 @@ describe("HTML_AST Tests", function() {
 			var mockString = '<img>';
 
 			var actual = HTML_AST.stringToAst(mockString);
-			var expected = [ mockTag( 'tag', 'img', true, {} ) ];
+			var expected = [ mockTag( 'tag', 'img', true, {}, 0, 0, 0, 4 ) ];
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
@@ -569,8 +579,8 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag( 'tag', 'div', false, {} );
-			var t2 = mockTag( 'tag', 'img', true, {} );
+			var t1 = mockTag( 'tag', 'div', false, {}, 0, 0, 0, 15 );
+			var t2 = mockTag( 'tag', 'img', true, {}, 0, 5, 0, 9 );
 
 			t1.children.push(t2);
 
@@ -584,9 +594,9 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag( 'tag', 'div', false, {} );
-			var t2 = mockTag( 'tag', 'img', true, {} );
-			var t3 = mockTag( 'tag', 'img', true, {} );
+			var t1 = mockTag( 'tag', 'div', false, {}, 0, 0, 0, 20 );
+			var t2 = mockTag( 'tag', 'img', true, {}, 0, 5, 0, 9 );
+			var t3 = mockTag( 'tag', 'img', true, {}, 0, 10, 0, 14 );
 
 			t1.children.push(t2);
 			t1.children.push(t3);
@@ -601,9 +611,9 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag('tag', 'div', false, {} );
-			var t2 = mockTag('tag', 'span', false, {} );
-			var t3 = mockTag('tag', 'p', false, {} );
+			var t1 = mockTag('tag', 'div', false, {}, 0, 0, 0, 30  );
+			var t2 = mockTag('tag', 'span', false, {}, 0, 5, 0, 24  );
+			var t3 = mockTag('tag', 'p', false, {}, 0, 11, 0, 17  );
 
 			t1.children.push(t2);
 			t2.children.push(t3);
@@ -618,10 +628,10 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag('tag', 'div', false, {} );
-			var t2 = mockTag('tag', 'img', true, {} );
-			var t3 = mockTag('tag', 'span', false, {} );
-			var t4 = mockTag('tag', 'p', false, {} );
+			var t1 = mockTag('tag', 'div', false, {}, 0, 0, 0, 35  );
+			var t2 = mockTag('tag', 'img', true, {}, 0, 5, 0, 9  );
+			var t3 = mockTag('tag', 'span', false, {}, 0, 10, 0, 29  );
+			var t4 = mockTag('tag', 'p', false, {}, 0, 16, 0, 22  );
 
 			t1.children.push(t2);
 			t1.children.push(t3);
@@ -637,20 +647,22 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag('tag', 'div', false, {} );
-			var t2 = mockTag('tag', 'img', true, {} );
-			var t3 = mockTag('tag', 'img', true, {} );
-			var t4 = mockTag('tag', 'span', false, {} );
-			var t5 = mockTag('tag', 'p', false, {} );
-			var t6 = mockTag('tag', 'div', false, {} );
-			var t7 = mockTag('tag', 'div', false, {} );
-			var t8 = mockTag('tag', 'div', false, {} );
+			var t1 = mockTag('tag', 'div', false, {}, 0, 0, 0, 103  );
+			var t2 = mockTag('tag', 'img', true, {}, 0, 5, 0, 9  );
+			var t3 = mockTag('tag', 'img', true, {}, 0, 10, 0, 14  );
+			var t4 = mockTag('tag', 'span', false, {}, 0, 15, 0, 34  );
+			var t5 = mockTag('tag', 'p', false, {}, 0, 21, 0, 27  );
 
-			var t9 = mockTag('tag', 'span', false, {} );
-			var t10 = mockTag('tag', 'p', false, {} );
-			var t11 = mockTag('tag', 'img', true, {} );
-			var t12 = mockTag('tag', 'img', true, {} );
-			var t13 = mockTag('tag', 'span', false, {} );
+			var t6 = mockTag('tag', 'div', false, {}, 0, 35, 0, 67  );
+			var t7 = mockTag('tag', 'div', false, {}, 0, 40, 0, 61  );
+			var t8 = mockTag('tag', 'div', false, {}, 0, 45, 0, 55  );
+
+			var t9 = mockTag('tag', 'span', false, {}, 0, 68, 0, 97 );
+			var t10 = mockTag('tag', 'p', false, {}, 0, 74, 0, 80  );
+			var t11 = mockTag('tag', 'img', true, {}, 0, 81, 0, 85  );
+			var t12 = mockTag('tag', 'img', true, {}, 0, 86, 0, 90  );
+			
+			var t13 = mockTag('tag', 'span', false, {}, 0, 104, 0, 116  );
 
 			t1.children.push(t2);
 			t1.children.push(t3);
@@ -676,7 +688,7 @@ describe("HTML_AST Tests", function() {
 			var mockString = '<div>';
 
 			var actual = HTML_AST.stringToAst(mockString);
-			var expected = [ mockTag( 'tag', 'div', false, {} ) ];
+			var expected = [ mockTag( 'tag', 'div', false, {}, 0, 0, 0 , 4 ) ];
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
@@ -686,8 +698,8 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag( 'tag', 'div', false, {} );
-			var t2 = mockTag( 'tag', 'span', false, {} );
+			var t1 = mockTag( 'tag', 'div', false, {}, 0, 0, 0, 17 );
+			var t2 = mockTag( 'tag', 'span', false, {}, 0, 5, 0, 17 );
 
 			t1.children.push(t2);
 
@@ -701,8 +713,8 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag( 'tag', 'div', false, {} );
-			var t2 = mockTag( 'tag', 'span', false, {} );
+			var t1 = mockTag( 'tag', 'div', false, {}, 0, 0, 0, 10 );
+			var t2 = mockTag( 'tag', 'span', false, {}, 0, 5, 0, 10 );
 
 			t1.children.push(t2);
 
@@ -716,10 +728,10 @@ describe("HTML_AST Tests", function() {
 
 			var actual = HTML_AST.stringToAst(mockString);
 
-			var t1 = mockTag( 'tag', 'div', false, {} );
-			var t2 = mockTag( 'tag', 'span', false, {} );
-			var t3 = mockTag( 'tag', 'img', true, {} );
-			var t4 = mockTag( 'tag', 'img', true, {} );
+			var t1 = mockTag( 'tag', 'div', false, {}, 0, 0, 0, 20 );
+			var t2 = mockTag( 'tag', 'span', false, {}, 0, 5, 0, 20 );
+			var t3 = mockTag( 'tag', 'img', true, {}, 0, 11, 0, 15 );
+			var t4 = mockTag( 'tag', 'img', true, {}, 0, 16, 0, 20 );
 
 			t1.children.push(t2);
 			t2.children.push(t3);

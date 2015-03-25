@@ -173,11 +173,11 @@ describe("Token Helper - tokenize", function() {
 			var expected = {
 				start: {
 					row:0,
-					column:0
+					col:0
 				},
 				end: {
 					row:0,
-					column: 19
+					col: 19
 				}
 			}
 
@@ -197,11 +197,11 @@ describe("Token Helper - tokenize", function() {
 			var expected = {
 				start: {
 					row:1,
-					column:0
+					col:0
 				},
 				end: {
 					row:1,
-					column: 8
+					col: 8
 				}
 			}
 
@@ -212,7 +212,7 @@ describe("Token Helper - tokenize", function() {
 
 		it("Simple 3 - should return the corrent location - with nl (multi)", function() {
 
-			var mockString = '<div>\n<h1>\n<h/1></div>';
+			var mockString = '<div>\n<h1>\n</h1></div>';
 			//console.log(mockString.charAt(6)) //<
 			//console.log(mockString.charAt(15)) //>
 			var mockStart = 6;
@@ -221,17 +221,65 @@ describe("Token Helper - tokenize", function() {
 			var expected = {
 				start: {
 					row:1,
-					column:0
+					col:0
 				},
 				end: {
 					row:2,
-					column: 4
+					col: 4
 				}
 			}
 
 			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
 
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
-		})
+		});
+
+		it("Simple 4 - self closing", function() {
+
+			var mockString = '<img>';
+			//console.log(mockString.charAt(6)) //<
+			//console.log(mockString.charAt(15)) //>
+			var mockStart = 0;
+			var mockEnd = 4;
+
+			var expected = {
+				start: {
+					row:0,
+					col:0
+				},
+				end: {
+					row:0,
+					col: 4
+				}
+			}
+
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
+
+		it("Simple 4 - self closing x 2", function() {
+
+			var mockString = '<img><img>';
+			//console.log(mockString.charAt(6)) //<
+			//console.log(mockString.charAt(15)) //>
+			var mockStart = 5;
+			var mockEnd = 9;
+
+			var expected = {
+				start: {
+					row:0,
+					col:5
+				},
+				end: {
+					row:0,
+					col: 9
+				}
+			}
+
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		});
 	});
 });
