@@ -743,4 +743,40 @@ describe("HTML_AST Tests", function() {
 			//expect(actual[0]).toEqual(jasmine.objectContaining(expected[0]));
 		});
 	});
+
+	describe("string to AST - Incomplete tags - Regex check", function() {
+
+		it("ast should not contain anything", function() {
+			var mockString = '<';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			expect(actual.length).toBe(0);
+		});
+
+		it("ast should contain one tag", function() {
+			var mockString = '<div></div><';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			expect(actual.length).toBe(1);
+		});
+
+		it("ast should not contain any tags", function() {
+			var mockString = '<d';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			expect(actual.length).toBe(0);
+		});
+
+		it("ast should not contain any nested tags", function() {
+			var mockString = '<div><</div>';
+
+			var actual = HTML_AST.stringToAst(mockString);
+
+			expect(actual.length).toBe(1);
+			expect(actual[0].children.length).toBe(0);
+		})
+	});
 });
