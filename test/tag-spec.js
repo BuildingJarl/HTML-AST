@@ -94,4 +94,24 @@ describe("Tag Tests", function() {
 
 		expect(testTag).toEqual(jasmine.objectContaining(mocktag));
 	});
+
+	it("element with attribute with -", function() {
+		var tag = '<div data-something="hello" data-boo="boo">';
+
+		var mocktag = {
+			type: 'tag',
+			name: 'div',
+			attrs: {
+				'data-something': 'hello',
+				'data-boo': 'boo'
+			},
+			voidElement: false,
+			children: []
+		};
+
+		var testTag = new Tag(tag);
+
+		expect(testTag).toEqual(jasmine.objectContaining(mocktag));
+	});
+
 });

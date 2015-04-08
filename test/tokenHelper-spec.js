@@ -33,6 +33,28 @@ describe("Token Helper - tokenize", function() {
 			expect( actual[2] ).toEqual(mockToken('<div>', 16, 20) );
 			expect( actual[3] ).toEqual(mockToken('</div>', 28, 33) );
 		});
+
+		it("return correct tokens from string with - attrs", function() {
+
+			var mock = '<div one-one="hello"></div>';
+
+			var actual = HELPER.tokenize(REG, mock);
+
+			expect( actual[0] ).toEqual(mockToken('<div one-one="hello">', 0, 20) );
+			expect( actual[1] ).toEqual(mockToken('</div>', 21, 26) );
+		});
+
+		it("return correct tokens from string with - attrs", function() {
+
+			var mock = '<div one-one="hello"><div two-one="hello"></div></div>';
+
+			var actual = HELPER.tokenize(REG, mock);
+
+			expect( actual[0] ).toEqual(mockToken('<div one-one="hello">', 0, 20) );
+			expect( actual[1] ).toEqual(mockToken('<div two-one="hello">', 21, 41) );
+			expect( actual[2] ).toEqual(mockToken('</div>', 42, 47) );
+			expect( actual[3] ).toEqual(mockToken('</div>', 48, 53) );
+		});
 	});
 
 	describe("get tag name", function() {
