@@ -1,5 +1,13 @@
 {
   "jspm": {
+    "dependencies": {
+      "karma-jspm": "^1.1.4",
+      "moment": "github:moment/moment@^2.10.2"
+    },
+    "devDependencies": {
+      "traceur": "github:jmcriffey/bower-traceur@0.0.87",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.87"
+    }
   },
   "dependencies": {
     "karma-jspm": "^1.1.4"

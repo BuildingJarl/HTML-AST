@@ -11,9 +11,12 @@ System.config({
     "BuildingJarl/html-parse-stringify": "github:BuildingJarl/html-parse-stringify@1.0.2",
     "ajaxorg/ace-builds": "github:ajaxorg/ace-builds@1.1.8",
     "css": "github:systemjs/plugin-css@0.1.6",
+    "moment": "github:moment/moment@2.10.2",
     "mrdoob/stats.js": "github:mrdoob/stats.js@master",
     "text": "github:systemjs/plugin-text@0.0.2",
     "three.js": "github:mrdoob/three.js@r70",
+    "traceur": "github:jmcriffey/bower-traceur@0.0.87",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.87",
     "uuid": "npm:uuid@2.0.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
