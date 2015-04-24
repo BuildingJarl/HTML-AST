@@ -1,7 +1,6 @@
 {
   "jspm": {
     "dependencies": {
-      "karma-jspm": "^1.1.4",
       "moment": "github:moment/moment@^2.10.2"
     },
     "devDependencies": {
