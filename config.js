@@ -16,8 +16,8 @@ System.config({
     "mrdoob/stats.js": "github:mrdoob/stats.js@master",
     "text": "github:systemjs/plugin-text@0.0.2",
     "three.js": "github:mrdoob/three.js@r70",
-    "traceur": "github:jmcriffey/bower-traceur@0.0.87",
-    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.87",
+    "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "uuid": "npm:uuid@2.0.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
