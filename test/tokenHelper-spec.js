@@ -304,4 +304,31 @@ describe("Token Helper - tokenize", function() {
 			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
 		});
 	});
+	
+	describe("CalcLocation bug 1", function() {
+
+		it("", function() {
+							//01234567890123456789012345678901234567890123456789012345678901234
+			var mockString = '<form>\n <div>\n <input>\n </div><button>Submit</button>\n</form>';
+			//console.log(mockString.charAt(0)) //<
+			//console.log(mockString.charAt(19)) //>
+			var mockStart = 9;
+			var mockEnd = 32;
+
+			var expected = {
+				start: {
+					row:1,
+					col:1
+				},
+				end: {
+					row: 3,
+					col: 6
+				}
+			}
+
+			var actual = HELPER.calcLocation(mockString, mockStart, mockEnd);
+
+			expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
+		})
+	});
 });

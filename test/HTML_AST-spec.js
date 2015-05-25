@@ -308,7 +308,7 @@ describe("bug test", function() {
 		expect(JSON.stringify(actual[0])).toEqual(JSON.stringify(root));
 	});
 
-		it("no spaces", function() {
+	it("no spaces", function() {
 				  //  0       1       2                    3                  4
 			      //012345  012345678  012345678901234  012345678901234567890123456789012  0123456
 		var html = '<form>\n    <div>\n        <input>\n    </div><button>Submit</button>\n</form>';
@@ -328,4 +328,47 @@ describe("bug test", function() {
 
 		expect(JSON.stringify(actual[0])).toEqual(JSON.stringify(root));
 	});
+
+	it("no spaces", function() {
+				  //  0       1       2                    3                  4
+			      //012345  012345  01234567  012345678901234567890123456789  0123456
+		var html = '<form>\n <div>\n <input>\n </div><button>Submit</button>\n</form>';
+
+		var actual = HTML_AST.stringToAst(html);
+
+		var expected = [];
+
+		var root = mockTag( 'tag', 'form', false, {}, 0, 0, 4, 6);
+		var div = mockTag( 'tag', 'div', false, {}, 1, 1, 3, 6);
+		var input = mockTag( 'tag', 'input', true, {}, 2, 1, 2, 7);
+		var button = mockTag( 'tag', 'button', false, {}, 3, 7, 3, 29);
+
+		root.children.push(div);
+		div.children.push(input);
+		root.children.push(button);
+
+		expect(JSON.stringify(actual[0])).toEqual(JSON.stringify(root));
+	});
+	/*
+	it("no spaces", function() {
+				  //  0       1       2                    3                  4
+			      //012345    012345678  0123456    01234567890123456789012345678  0123456
+		var html = '<form>\n\t<div>\n\t\t<input>\n\t</div><button>Submit</button>\n</form>';
+
+		var actual = HTML_AST.stringToAst(html);
+
+		var expected = [];
+
+		var root = mockTag( 'tag', 'form', false, {}, 0, 0, 4, 6);
+		var div = mockTag( 'tag', 'div', false, {}, 1, 4, 3, 9);
+		var input = mockTag( 'tag', 'input', true, {}, 2, 8, 2, 14);
+		var button = mockTag( 'tag', 'button', false, {}, 3, 10, 3, 32);
+
+		root.children.push(div);
+		div.children.push(input);
+		root.children.push(button);
+
+		expect(JSON.stringify(actual[0])).toEqual(JSON.stringify(root));
+	});
+*/
 })
