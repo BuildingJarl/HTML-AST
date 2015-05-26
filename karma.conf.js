@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     jspm: {
       // Edit this to your needs
-      loadFiles: ['test/**/*.js'],
+      loadFiles: ['test/runner-spec.js'],
       serveFiles: ['lib/**/*.js']
     },
 
